@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.akado.bookstore.ui.detail.DetailViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_begin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility='@{viewModel.item == null ? View.GONE : View.VISIBLE}'
+                app:constraint_referenced_ids="iv_thumbnail,tv_title,tv_subtitle,ll_info,tv_price,tv_desc" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility='@{viewModel.item == null ? View.VISIBLE : View.GONE}'
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:bookDetailThumbnail='@{viewModel.item == null ? "" : viewModel.item.image}'
+                app:layout_constraintDimensionRatio="h,4:3"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:alpha="0.1"
+                tools:background="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text='@{viewModel.item == null ? "" : viewModel.item.title}'
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_begin"
+                app:layout_constraintTop_toBottomOf="@id/iv_thumbnail"
+                tools:text="@string/tools_sentence" />
+
+            <TextView
+                android:id="@+id/tv_subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text='@{viewModel.item == null ? "" : viewModel.item.subTitle}'
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_begin"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:text="@string/tools_sentence" />
+
+            <LinearLayout
+                android:id="@+id/ll_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_begin"
+                app:layout_constraintTop_toBottomOf="@id/tv_subtitle">
+
+                <TextView
+                    android:id="@+id/tv_authors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{viewModel.item == null ? "" : viewModel.item.authors}'
+                    android:textSize="12sp"
+                    tools:text="@string/tools_word" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="14dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_publisher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{viewModel.item == null ? "" : viewModel.item.publisher}'
+                    android:textSize="12sp"
+                    tools:text="@string/tools_word" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="14dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_pages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{viewModel.item == null ? "" : String.valueOf(viewModel.item.pages)}'
+                    android:textSize="12sp"
+                    tools:text="@string/tools_word" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="14dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{viewModel.item == null ? "" : String.valueOf(viewModel.item.year)}'
+                    android:textSize="12sp"
+                    tools:text="@string/tools_word" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text='@{viewModel.item == null ? "" : viewModel.item.price}'
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_begin"
+                app:layout_constraintTop_toBottomOf="@id/ll_info"
+                tools:text="@string/tools_word" />
+
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text='@{viewModel.item == null ? "" : viewModel.item.desc}'
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_begin"
+                app:layout_constraintTop_toBottomOf="@id/tv_price"
+                tools:text="@string/tools_paragraph" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

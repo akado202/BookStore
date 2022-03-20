@@ -1,6 +1,6 @@
 package com.akado.bookstore.domain.model
 
-data class BookDetailDomainData(
+data class BookDetailDomainModel(
 
     val title: String,
     val subTitle: String,

@@ -1,12 +1,12 @@
 package com.akado.bookstore.data.mapper
 
 import com.akado.bookstore.data.model.BookDetailData
-import com.akado.bookstore.domain.model.BookDetailDomainData
+import com.akado.bookstore.domain.model.BookDetailDomainModel
 
-object BookDetailDomainMapper : DomainMapper<BookDetailData, BookDetailDomainData> {
+object BookDetailDomainMapper : DomainMapper<BookDetailData, BookDetailDomainModel> {
 
-    override fun mapToModel(from: BookDetailData): BookDetailDomainData {
-        return BookDetailDomainData(
+    override fun mapToModel(from: BookDetailData): BookDetailDomainModel {
+        return BookDetailDomainModel(
             title = from.title,
             subTitle = from.subTitle,
             authors = from.authors,

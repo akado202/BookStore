@@ -36,12 +36,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.ivImage.setOnClickListener {
-            viewModel.request(binding.etEdit.text.toString())
-            hideKeyboard(MainActivity@this, binding.etEdit)
+            request()
+            hideKeyboard(MainActivity@ this, binding.etEdit)
         }
+
+        binding.recyclerView.addOnScrollListener(
+            LoadMoreOnScrollListener(object : LoadMoreOnScrollListener.Callback {
+                override fun loadMore() {
+                    request()
+                }
+            })
+        )
     }
 
     fun onItemClick(model: BookItemDomainModel) {
         startActivity(DetailActivity.intent(this, model.isbn13))
+    }
+
+    private fun request() {
+        viewModel.request(binding.etEdit.text.toString())
     }
 }

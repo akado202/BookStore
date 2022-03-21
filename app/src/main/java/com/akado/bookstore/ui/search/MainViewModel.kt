@@ -20,14 +20,36 @@ class MainViewModel @Inject constructor(
     private val _items = MutableLiveData<ArrayList<BookItemDomainModel>>(ArrayList())
     val items: LiveData<ArrayList<BookItemDomainModel>> get() = _items
 
+    private val _query = MutableLiveData<String>(null)
+    private val _page = MutableLiveData(1)
+    private val _isLoading = MutableLiveData(false)
+    private val _hasMore = MutableLiveData(true)
+
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
     }
 
     fun request(query: String) {
-        searchUseCase.getSearchResult(query, 1)
-            .doOnNext { _items.value = ArrayList(it) }
+        if (_query.value != query) {
+            compositeDisposable.clear()
+            _items.value = ArrayList()
+            _query.value = query
+            _page.value = 1
+            _isLoading.value = false
+            _hasMore.value = true
+        }
+
+        if (_isLoading.value == true || _hasMore.value == false) {
+            return
+        }
+
+        searchUseCase.getSearchResult(_query.value!!, _page.value!!)
+            .doOnSubscribe { _isLoading.value = true }
+            .doFinally{ _isLoading.value = false }
+            .doOnNext { _page.value = (_page.value ?: 1) + 1 }
+            .doOnNext { _items.value!!.addAll(it) }
+            .doOnNext { _items.value = _items.value }
             .subscribe()
             .addTo(compositeDisposable)
     }
